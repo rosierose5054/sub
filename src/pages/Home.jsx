@@ -13,12 +13,15 @@ export default function Home() {
         height: "100vh",
         textAlign: "center",
         gap: "20px",
+        padding: "0 20px",
       }}
     >
-      <h1>Welcome to Wasl Platform 🚀</h1>
-      <p>Discover factories, services, and industrial insights.</p>
+      <h1 style={{ fontSize: "3rem", fontWeight: "bold" }}>Welcome to Wasl Platform 🚀</h1>
+      <p style={{ fontSize: "1.2rem", color: "#4B5563" }}>
+        Discover factories, services, industrial insights, and the latest news.
+      </p>
 
-      <div style={{ display: "flex", gap: "15px" }}>
+      <div style={{ display: "flex", gap: "15px", flexWrap: "wrap", justifyContent: "center" }}>
         {/* زر ينقل للصفحة المصانع */}
         <button
           onClick={() => navigate("/factories")}
@@ -49,7 +52,7 @@ export default function Home() {
           Start Now
         </button>
 
-        {/* زر Sign Up ينقل للصفحة تسجيل الدخول */}
+        {/* زر Sign Up ينقل لصفحة تسجيل الدخول */}
         <button
           onClick={() => navigate("/login")}
           style={{
@@ -62,6 +65,36 @@ export default function Home() {
           }}
         >
           Sign Up
+        </button>
+
+        {/* زر جديد يعرض صفحة Contact */}
+        <button
+          onClick={() => navigate("/contact")}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#6B21A8",
+            color: "white",
+            borderRadius: "8px",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Contact Us
+        </button>
+
+        {/* زر جديد يفتح صفحة الأخبار */}
+        <button
+          onClick={() => navigate("/news")}
+          style={{
+            padding: "10px 20px",
+            backgroundColor: "#3B82F6",
+            color: "white",
+            borderRadius: "8px",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          News
         </button>
       </div>
     </div>

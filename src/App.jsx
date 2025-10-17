@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Factories from "./pages/Factories";
 import Premium from "./pages/Premium";
+import NewsPage from "./pages/News"; // استيراد صفحة الأخبار
 
 export default function App() {
   return (
@@ -12,14 +13,11 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-
         <Route path="/about" element={<About />} />
-
         <Route path="/contact" element={<Contact />} />
-
         <Route path="/factories" element={<Factories />} />
-
         <Route path="/premium" element={<Premium />} />
+        <Route path="/news" element={<NewsPage />} /> {/* راوت صفحة الأخبار */}
       </Routes>
     </Router>
   );

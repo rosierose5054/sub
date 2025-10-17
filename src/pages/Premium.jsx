@@ -1,4 +1,6 @@
+// src/pages/Premium.jsx
 import React, { useState, useEffect } from 'react';
+import PaymentOverlay from '../components/PaymentOverlay';
 
 const Premium = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -193,29 +195,9 @@ const Premium = () => {
         </div>
       </div>
 
-      {/* Payment Overlay Placeholder */}
+      {/* Payment Overlay */}
       {showPaymentOverlay && (
-        <div 
-          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-          onClick={() => setShowPaymentOverlay(false)}
-        >
-          <div 
-            className="bg-white rounded-2xl p-8 max-w-md w-full mx-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3 className="text-2xl font-bold mb-4">Payment Processing</h3>
-            <p className="text-gray-600 mb-6">
-              This is a placeholder for the PaymentOverlay component. 
-              You can replace this with your actual payment component.
-            </p>
-            <button 
-              onClick={() => setShowPaymentOverlay(false)}
-              className="w-full py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 transition-all duration-300"
-            >
-              Close
-            </button>
-          </div>
-        </div>
+        <PaymentOverlay onClose={() => setShowPaymentOverlay(false)} testMode />
       )}
     </div>
   );
