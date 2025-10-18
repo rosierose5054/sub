@@ -5,7 +5,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Factories from "./pages/Factories";
 import Premium from "./pages/Premium";
-import NewsPage from "./pages/News"; // استيراد صفحة الأخبار
+import NewsPage from "./pages/News"; 
 
 export default function App() {
   return (

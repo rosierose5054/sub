@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Lock, User, Phone, Eye, EyeOff } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff } from 'lucide-react';
 
 export default function AuthPage() {
   const [isSignIn, setIsSignIn] = useState(true);
@@ -8,21 +8,10 @@ export default function AuthPage() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    phone: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    factoryName: ''
   });
-
-  const toggleAuth = () => {
-    setIsSignIn(!isSignIn);
-    setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      password: '',
-      confirmPassword: ''
-    });
-  };
 
   const handleChange = (e) => {
     setFormData({
@@ -33,245 +22,301 @@ export default function AuthPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    
+    if (isSignIn) {
+      if (formData.email && formData.password) {
+        window.location.href = '/Home';
+      }
+    } else {
+      if (formData.factoryName && formData.name && formData.email && formData.password && formData.confirmPassword) {
+        window.location.href = '/Factories';
+      } else if (!formData.factoryName && formData.name && formData.email && formData.password && formData.confirmPassword) {
+        window.location.href = '/Home';
+      }
+    }
+  };
+
+  const handleSocialLogin = (provider) => {
+    console.log(`Login with ${provider}`);
+    window.location.href = '/Home';
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      factoryName: ''
+    });
+  };
+
+  const toggleAuth = (newState) => {
+    setIsSignIn(newState);
+    resetForm();
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 via-orange-50 to-white p-4">
-      <div className="w-full max-w-5xl bg-white rounded-3xl shadow-2xl overflow-hidden relative">
-        <div className="flex flex-row min-h-[600px] relative">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 relative">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playwrite+USA+Modern:wght@400&family=Raleway:wght@600&display=swap');
+      `}</style>
+      
+      <div className="w-screen h-screen relative">
+        <div className="flex flex-row h-full relative bg-white overflow-hidden">
           
-          {/* Animated Background Panel */}
-          <div 
-            className={`absolute top-0 bottom-0 w-1/2 bg-gradient-to-br from-orange-300 via-orange-400 to-white transition-all duration-700 ease-in-out rounded-3xl shadow-2xl z-10 ${
-              isSignIn ? 'left-0' : 'left-1/2'
-            }`}
-            style={{
-              transform: isSignIn ? 'translateX(0)' : 'translateX(0)',
-            }}
-          >
-            <div className="h-full flex items-center justify-center p-10">
-              {isSignIn ? (
-                <div className="text-center text-white">
-                  <h2 className="text-4xl font-bold mb-4">Welcome Back!</h2>
-                  <p className="text-white/90 mb-8">Enter your personal details to use all of site features</p>
-                  <button
-                    onClick={toggleAuth}
-                    className="px-8 py-3 border-2 border-white rounded-full text-white font-semibold hover:bg-white hover:text-orange-500 transition-all duration-300"
-                  >
-                    SIGN UP
-                  </button>
-                </div>
-              ) : (
-                <div className="text-center text-white">
-                  <h2 className="text-4xl font-bold mb-4">Hello, Friend!</h2>
-                  <p className="text-white/90 mb-8">Register with your personal details to use all of site features</p>
-                  <button
-                    onClick={toggleAuth}
-                    className="px-8 py-3 border-2 border-white rounded-full text-white font-semibold hover:bg-white hover:text-orange-500 transition-all duration-300"
-                  >
-                    SIGN IN
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
+          {/* Left Panel - Orange */}
+          <div className="w-80 bg-gradient-to-b from-orange-400 to-orange-500 p-8 relative overflow-hidden flex flex-col justify-center">
+            {/* Decorative Circles */}
+            <div className="absolute top-0 right-0 w-40 h-40 bg-orange-300 rounded-full opacity-20 -mr-20 -mt-20"></div>
+            <div className="absolute bottom-0 left-0 w-32 h-32 bg-orange-600 rounded-full opacity-20 -mb-16 -ml-16"></div>
 
-          {/* Sign In Form */}
-          <div className={`w-1/2 p-10 flex flex-col justify-center transition-all duration-700 ease-in-out ${
-            isSignIn ? 'opacity-0 pointer-events-none' : 'opacity-100 z-20'
-          }`}>
-            <div className="space-y-6">
-              <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">Sign In</h2>
-              
-              <div className="flex justify-center gap-3 mb-6">
-                <button className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <circle cx="12" cy="12" r="4"/>
-                    <line x1="21.17" y1="8" x2="12" y2="8"/>
-                    <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
-                    <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
-                  </svg>
-                </button>
-                <button className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                  </svg>
-                </button>
-                <button className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                    <rect x="2" y="9" width="4" height="12"/>
-                    <circle cx="4" cy="4" r="2"/>
-                  </svg>
+            {/* Buttons Container */}
+            <div className="relative z-10 space-y-6 flex flex-col items-end">
+              {/* Sign In Button */}
+              <div className="flex justify-end -mr-16 overflow-visible">
+                <button
+                  onClick={() => toggleAuth(true)}
+                  className={`py-3 px-12 rounded-2xl font-semibold text-lg transition-colors duration-300 active:scale-100 whitespace-nowrap ${
+                    isSignIn
+                      ? 'bg-white text-orange-400 shadow-lg'
+                      : 'text-orange-200 hover:text-white'
+                  }`}
+                  style={{ fontFamily: "'Raleway', sans-serif" }}
+                >
+                  Login
                 </button>
               </div>
 
-              <p className="text-center text-gray-500 text-sm mb-4">or use your email for login</p>
-
-              <div className="space-y-4">
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                </div>
-
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
-                  </button>
-                </div>
-
-                <div className="text-right">
-                  <a href="#" className="text-sm text-orange-500 hover:text-orange-600">Forgot Your Password?</a>
-                </div>
-
+              {/* Sign Up Button */}
+              <div className="flex justify-end -mr-16 overflow-visible">
                 <button
-                  onClick={handleSubmit}
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg"
+                  onClick={() => toggleAuth(false)}
+                  className={`py-3 px-12 rounded-2xl font-semibold text-lg transition-colors duration-300 active:scale-100 whitespace-nowrap ${
+                    !isSignIn
+                      ? 'bg-white text-orange-400 shadow-lg'
+                      : 'text-orange-200 hover:text-white'
+                  }`}
+                  style={{ fontFamily: "'Raleway', sans-serif" }}
                 >
-                  SIGN IN
+                  Sign up
                 </button>
               </div>
             </div>
           </div>
 
-          {/* Sign Up Form */}
-          <div className={`w-1/2 p-10 flex flex-col justify-center transition-all duration-700 ease-in-out ${
-            !isSignIn ? 'opacity-0 pointer-events-none' : 'opacity-100 z-20'
-          }`}>
-            <div className="space-y-4">
-              <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">Create Account</h2>
-              
-              <div className="flex justify-center gap-3 mb-4">
-                <button className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10"/>
-                    <circle cx="12" cy="12" r="4"/>
-                    <line x1="21.17" y1="8" x2="12" y2="8"/>
-                    <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
-                    <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
-                  </svg>
-                </button>
-                <button className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-                  </svg>
-                </button>
-                <button className="p-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
-                  <svg className="w-5 h-5 text-gray-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
-                    <rect x="2" y="9" width="4" height="12"/>
-                    <circle cx="4" cy="4" r="2"/>
-                  </svg>
-                </button>
-              </div>
-
-              <p className="text-center text-gray-500 text-sm mb-3">or use your email for registration</p>
-
-              <div className="space-y-3">
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="text"
-                    name="name"
-                    placeholder="Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
+          {/* Right Panel - Form */}
+          <div className="flex-1 p-8 flex flex-col justify-center overflow-y-auto">
+            {isSignIn ? (
+              <div className="space-y-6 max-w-sm mx-auto w-full">
+                <div className="flex justify-center mb-6">
+                  <img src="/logo.png" alt="Logo" className="w-28 h-28 object-contain" />
                 </div>
 
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                </div>
+                <h2 style={{ fontFamily: "'Playwrite USA Modern', cursive" }} className="text-2xl font-light text-gray-800 text-center tracking-wide">Welcome Back</h2>
 
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type="tel"
-                    name="phone"
-                    placeholder="Phone Number"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                </div>
+                <div className="space-y-4">
+                  <div className="relative">
+                    <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-4 py-2 border-b-2 border-gray-300 focus:border-orange-400 focus:outline-none text-gray-700 bg-transparent placeholder-gray-400 text-sm"
+                    />
+                  </div>
 
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {!showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                  </button>
-                </div>
-
-                <div className="relative">
-                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                  <input
-                    type={showConfirmPassword ? "text" : "password"}
-                    name="confirmPassword"
-                    placeholder="Confirm Password"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className="w-full pl-12 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-400"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
-                  >
-                    {showConfirmPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
-                  </button>
+                  <div className="relative">
+                    <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      placeholder="Password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-12 py-2 border-b-2 border-gray-300 focus:border-orange-400 focus:outline-none text-gray-700 bg-transparent placeholder-gray-400 text-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showPassword ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                    </button>
+                  </div>
                 </div>
 
                 <button
                   onClick={handleSubmit}
-                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 text-white py-3 rounded-lg font-semibold hover:from-orange-600 hover:to-orange-700 transition-all duration-300 shadow-lg mt-4"
+                  className="w-full bg-gradient-to-r from-orange-400 to-orange-500 text-white py-3 rounded-full font-semibold hover:from-orange-500 hover:to-orange-600 transition-all duration-300 shadow-lg text-sm"
+                  style={{ fontFamily: "'Raleway', sans-serif" }}
                 >
-                  SIGN UP
+                  Get started
                 </button>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex-1 h-px bg-gray-300"></div>
+                  <span className="text-gray-500 text-xs">OR</span>
+                  <div className="flex-1 h-px bg-gray-300"></div>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => handleSocialLogin('Google')}
+                    className="flex-1 flex items-center justify-center gap-1 py-2 border-2 border-orange-400 rounded-full text-orange-500 font-semibold hover:bg-orange-50 transition-all duration-300 text-xs"
+                    style={{ fontFamily: "'Raleway', sans-serif" }}
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <circle cx="12" cy="12" r="10"/>
+                      <circle cx="12" cy="12" r="4"/>
+                      <line x1="21.17" y1="8" x2="12" y2="8"/>
+                      <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
+                      <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
+                    </svg>
+                    Google
+                  </button>
+                  <button
+                    onClick={() => handleSocialLogin('Facebook')}
+                    className="flex-1 flex items-center justify-center gap-1 py-2 border-2 border-orange-400 rounded-full text-orange-500 font-semibold hover:bg-orange-50 transition-all duration-300 text-xs"
+                    style={{ fontFamily: "'Raleway', sans-serif" }}
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    Facebook
+                  </button>
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className="space-y-4 max-w-sm mx-auto w-full">
+                <div className="flex justify-center mb-6">
+                  <img src="/logo.png" alt="Logo" className="w-28 h-28 object-contain" />
+                </div>
+
+                <h2 style={{ fontFamily: "'Playwrite USA Modern', cursive" }} className="text-2xl font-light text-gray-800 text-center tracking-wide">Create New Account</h2>
+
+                <div className="space-y-3">
+                  <div className="relative">
+                    <User className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Full Name *"
+                      value={formData.name}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-4 py-2 border-b-2 border-gray-300 focus:border-orange-400 focus:outline-none text-gray-700 bg-transparent placeholder-gray-400 text-sm"
+                    />
+                  </div>
+
+                  <div className="relative">
+                    <Mail className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="Email *"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-4 py-2 border-b-2 border-gray-300 focus:border-orange-400 focus:outline-none text-gray-700 bg-transparent placeholder-gray-400 text-sm"
+                    />
+                  </div>
+
+                  <div className="relative">
+                    <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      placeholder="Password *"
+                      value={formData.password}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-12 py-2 border-b-2 border-gray-300 focus:border-orange-400 focus:outline-none text-gray-700 bg-transparent placeholder-gray-400 text-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showPassword ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                    </button>
+                  </div>
+
+                  <div className="relative">
+                    <Lock className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type={showConfirmPassword ? "text" : "password"}
+                      name="confirmPassword"
+                      placeholder="Confirm Password *"
+                      value={formData.confirmPassword}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-12 py-2 border-b-2 border-gray-300 focus:border-orange-400 focus:outline-none text-gray-700 bg-transparent placeholder-gray-400 text-sm"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      className="absolute right-0 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                    >
+                      {showConfirmPassword ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                    </button>
+                  </div>
+
+                  <div className="relative">
+                    <User className="absolute left-0 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="text"
+                      name="factoryName"
+                      placeholder="Factory Name"
+                      value={formData.factoryName}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-4 py-2 border-b-2 border-gray-300 focus:border-orange-400 focus:outline-none text-gray-700 bg-transparent placeholder-gray-400 text-sm"
+                    />
+                  </div>
+
+                  <p className="text-xs text-gray-500">* Required fields</p>
+                </div>
+
+                <button
+                  onClick={handleSubmit}
+                  className="w-full bg-gradient-to-r from-orange-400 to-orange-500 text-white py-3 rounded-full font-semibold hover:from-orange-500 hover:to-orange-600 transition-all duration-300 shadow-lg text-sm"
+                  style={{ fontFamily: "'Raleway', sans-serif" }}
+                >
+                  Get started
+                </button>
+
+                <div className="flex items-center gap-4">
+                  <div className="flex-1 h-px bg-gray-300"></div>
+                  <span className="text-gray-500 text-xs">OR</span>
+                  <div className="flex-1 h-px bg-gray-300"></div>
+                </div>
+
+                <div className="flex gap-3">
+                  <button
+                    onClick={() => handleSocialLogin('Google')}
+                    className="flex-1 flex items-center justify-center gap-1 py-2 border-2 border-orange-400 rounded-full text-orange-500 font-semibold hover:bg-orange-50 transition-all duration-300 text-xs"
+                    style={{ fontFamily: "'Raleway', sans-serif" }}
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <circle cx="12" cy="12" r="10"/>
+                      <circle cx="12" cy="12" r="4"/>
+                      <line x1="21.17" y1="8" x2="12" y2="8"/>
+                      <line x1="3.95" y1="6.06" x2="8.54" y2="14"/>
+                      <line x1="10.88" y1="21.94" x2="15.46" y2="14"/>
+                    </svg>
+                    Google
+                  </button>
+                  <button
+                    onClick={() => handleSocialLogin('Facebook')}
+                    className="flex-1 flex items-center justify-center gap-1 py-2 border-2 border-orange-400 rounded-full text-orange-500 font-semibold hover:bg-orange-50 transition-all duration-300 text-xs"
+                    style={{ fontFamily: "'Raleway', sans-serif" }}
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                    </svg>
+                    Facebook
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
